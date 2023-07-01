@@ -1,2 +1,2 @@
 # CPEN311
-Labs for Cpen 311
+CPEN 311 Labs S2023

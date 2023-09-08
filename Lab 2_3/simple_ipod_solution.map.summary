@@ -1,0 +1,17 @@
+Analysis & Synthesis Status : Successful - Sun Jun 11 23:52:46 2023
+Quartus Prime Version : 16.1.2 Build 203 01/18/2017 SJ Lite Edition
+Revision Name : simple_ipod_solution
+Top-level Entity Name : simple_ipod_solution
+Family : Cyclone V
+Logic utilization (in ALMs) : N/A
+Total registers : 8637
+Total pins : 189
+Total virtual pins : 0
+Total block memory bits : 72,832
+Total DSP Blocks : 0
+Total HSSI RX PCSs : 0
+Total HSSI PMA RX Deserializers : 0
+Total HSSI TX PCSs : 0
+Total HSSI PMA TX Serializers : 0
+Total PLLs : 0
+Total DLLs : 0

@@ -1,0 +1,2 @@
+Warning (10268): Verilog HDL information at addrctrlfsm.v(61): always construct contains both blocking and non-blocking assignments File: C:/LAB3/template_de1soc/addrctrlfsm.v Line: 61
+Warning (10273): Verilog HDL warning at picoblaze_template.v(132): extended using "x" or "z" File: c:/template_de1_soc/picoblaze_template.v Line: 132

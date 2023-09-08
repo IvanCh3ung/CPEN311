@@ -1,0 +1,44 @@
+module ksa (
+    input CLOCK_50,
+    input [3:0] KEY,
+    input [9:0] SW,
+    output [9:0] LEDR,
+    output [6:0] HEX0, HEX1, HEX2, HEX3, HEX4, HEX5
+);
+
+    wire clk;
+    wire reset_n;
+    wire [7:0] write_mem;
+    wire [7:0] write_data;
+    wire [7:0] read_data;
+    wire [9:0] secret_key;
+
+
+    SevenSegmentDisplayDecoder sevenseg0 (.ssOut(HEX0), .nIn(SW[2:0]));
+    SevenSegmentDisplayDecoder sevenseg1 (.ssOut(HEX1), .nIn(SW[3:1]));
+    SevenSegmentDisplayDecoder sevenseg2 (.ssOut(HEX2), .nIn(SW[4:2]));
+    SevenSegmentDisplayDecoder sevenseg3 (.ssOut(HEX3), .nIn(SW[5:3]));
+    SevenSegmentDisplayDecoder sevenseg4 (.ssOut(HEX4), .nIn(SW[6:4]));
+    SevenSegmentDisplayDecoder sevenseg5 (.ssOut(HEX5), .nIn(SW[7:5]));
+
+    assign clk = CLOCK_50;
+    assign reset_n = KEY[3];
+    assign secret_key = KEY[9:0]
+
+    task2_shuffle shuffle (.clk(clk), 
+                           .rst(1'b1),
+                           .secert_key(secret_key),
+                           .read_data(read_data), 
+                           .write_mem(write_mem), 
+                           .write_data(write_data)
+    );
+
+    s_memory working_memory (
+        .clock(clk),
+	    .address(write_mem),
+	    .data(write_data),
+	    .wren(1'b1),
+	    .q(read_data)
+    );
+
+endmodule

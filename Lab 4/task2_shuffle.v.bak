@@ -1,0 +1,371 @@
+/*
+// Input:
+// secret_key [] : array of bytes that represent the secret key. In our implementation,
+// we will assume a key of 24 bits, meaning this array is 3 bytes long
+// encrypted_input []: array of bytes that represent the encrypted message. In our
+// implementation, we will assume the input message is 32 bytes
+// Output:
+// decrypted _output []: array of bytes that represent the decrypted result. This will
+// always be the same length as encrypted_input [].
+
+
+// shuffle the array based on the secret key. You will build this in Task 2
+j = 0
+for i = 0 to 255 {
+j = (j + s[i] + secret_key[i mod keylength] ) //keylength is 3 in our impl.
+swap values of s[i] and s[j]
+}
+
+
+*/
+module task2_shuffle (
+    input clk,                              //input clk
+    input rst,                              //input rst - ACTIVE LOW
+    input [7:0] s_memory_q,                 //read_data from s_memory 
+    input start,                            //signal to start FSM
+    //input [23:0] secret_key               //input secret key
+    output doneFsm2a,                       //signal to say FSM done
+    output wren_2a,                         //Write enable signal
+    output reg [7:0] s_memory_addr,         //provides input to s_memory of addr to read/write at
+    output reg [7:0] s_memory_data,            //provdes input to s_memory of data to write at
+    output reg [11:0] state                  //state signal
+);
+
+    reg [23:0] secret_key = 24'h000249;      //{0, 2, 73} for debugging
+    reg [1:0] indexSecretKey;
+    reg [7:0] secret_key_data;
+
+    reg [7:0] indexI = 8'b0;            
+    reg [7:0] indexJ = 8'b0;
+
+    reg [7:0] si;
+    reg [7:0] sj;
+
+    
+
+// j = (j + s[i] + secret_key[i mod keylength] ) //keylength is 3 in our impl.
+// swap values of s[i] and s[j]
+
+    parameter idle          = 12'b0000_0000_0000; //idle state
+
+    parameter setAddrI      = 12'b0001_0100_0000;              //set address to i
+    parameter getDataI      = 12'b0010_0000_0100;              //read from address i and store in si
+    parameter holdDataI     = 12'b0011_0000_0000;              //wait one clk cycle
+
+
+    parameter computeJ      = 12'b0101_0010_0000;               //compute j
+
+    parameter setAddrJ      = 12'b0110_0000_0000;               //set address to j
+    parameter getDataJ      = 12'b0111_0000_1000;               //read from address j and store in sj
+    parameter holdDataJ     = 12'b1000_0000_0000;               // wait one clk cycle
+
+    parameter swap_iToj     = 12'b1010_0101_0000;               //select address j and write s[i]
+    parameter swap_jToi     = 12'b1011_1001_0000;               //select address i and write s[j]
+
+    parameter incrementI    = 12'b1100_0000_0010;               //increment index
+    parameter finished      = 12'b1101_0000_0001;               //finshed!
+
+
+
+    
+    /* State logic*/
+    always @(posedge clk, posedge rst) begin
+        if (rst) state <= idle;
+        else begin
+            case (state)
+                idle: if (start)    state <= setAddrI;                  //start once fsm taks1 done
+                      else          state <= idle;                      //stay if fsm task1 is not done
+                setAddrI:           state <= getDataI;                  //set i index 
+                getDataI:           state <= holdDataI;                 //gets and store in s[i]
+                holdDataI:          state <= computeJ;                  //wait for return data     
+
+                computeJ:           state <= setAddrJ;                 //compute swap index j
+                setAddrJ:           state <= getDataJ;                 //set j index 
+                getDataJ:           state <= holdDataJ;                //get data stored at j
+                holdDataJ:          state <= swap_iToj;                //wait for return data
+
+                swap_iToj:          state <= swap_jToi;                 //swap data at i to j
+                swap_jToi:          state <= incrementI;                //swap data at j to i 
+
+                incrementI: if (i == 8'd255) state <= finished;         //go to finish if done swapping
+                            else state <= setAddrI                      //keep swaping if not done
+                finished: 
+                default: state <= idle;                                 //set default state to idle
+            endcase
+        end
+    end
+
+/* Internal signal logic */
+
+//compute indexSecretKey
+    always @(*) begin
+        indexSecretKey = i % 3;
+    end
+
+//key position logic
+    always @(*) begin
+        case (indexSecretKey) //i % scret_key_length
+            2'b00:   secret_key_data = secret_key [23:16];
+            2'b01:   secret_key_data = secret_key [15:8];
+            2'b10:   secret_key_data = secret_key [7:0];
+            default: secret_key_data = 24'b0;
+        endcase
+    end
+
+wire incI, updateJ;
+//increment i
+always @(posedge clk) begin
+    if (incI) i <= i + 8'd1
+end
+
+
+//update j
+always @ (posedge clk) begin
+    if (updateJ) j <= j + si + secret_key_data;
+    else if (rst) j <= 0;
+end
+
+wire setSi, setSj;
+//set si to s_memory_q
+always @(posedge clk) begin
+    if (setSi) si <= s_memory_q;
+    else if (rst) si <= 8'b0;
+end
+
+//set sj to s_memory_q
+always @(posedge clk) begin
+    if (setSj) sj <= s_memory_q;
+    else if (rst) sj <= 8'b0;
+end
+
+
+
+/* Output logic*/
+always@(*) begin
+    doneFsm2a = state[0];
+    incI = state[1];
+    setSi = state[2];
+    setSj = state[3];
+
+    wren_2a = state[4];
+    updateJ = state[5];
+    sel_s_memory_address_j = state[6];
+    sel_s_memory_data_sj = state[7];
+end
+
+wire sel_s_memory_address_j,sel_s_memory_data_sj;
+
+/* Select s_memory address*/
+always @(*) begin
+    if (sel_s_memory_address_j) s_memory_addr = j;
+    else sel_s_memory_address_j =  i;
+end
+
+//select memory data
+always@ (*) begin
+    if (sel_s_memory_data_sj) s_memory_data = sj;
+    else sel_s_memory_data_sj = si; 
+end
+
+endmodule
+
+/*
+module task2_shuffle (
+    input clk,                              //input clk
+    input rst,                              //input rst - ACTIVE LOW
+    input [7:0] read_data,                  //task1_init_data
+    input start,                            //start FSM signal
+    //input [23:0] secret_key               //input secret key
+    output doneFsm2a,                       //done FSM signal
+    output wren_2a,                         //Write enable signal
+    output reg [7:0] write_mem,             //write_mem output
+    output reg [7:0] write_data,            //write_data output
+    output reg [6:0] state                  //state signal
+);
+
+    reg [23:0] secret_key = 24'h000249;      //{0, 2, 73} for debugging
+    reg [1:0] key_position;
+    reg [7:0] plus_key;
+
+    reg [7:0] i = 8'd0; 
+
+    reg [7:0] mem_address_j;
+    reg [7:0] mem_address_i;
+
+
+    reg [7:0] buff1;
+    reg [7:0] buff2;
+
+    
+    parameter idle              = 7'b00000_00;                                          //wait for start signal 
+
+    parameter get_positionI     = 7'b00001_00;                                           //get value i                     
+    parameter fetchI            = 7'b00010_00;                                          //reads s[i]
+    parameter hold_fetchI       = 7'b00011_00;                                          //wait one clk cycle
+    parameter load_dataI        = 7'b00100_00;                                          //load s[i] to buff
+
+    parameter get_positionJ     = 7'b00101_00;                                          //get position of the swap data (j - index)
+    parameter fetchJ            = 7'b00110_00;                                          //reads s[j]
+    parameter hold_fetchJ       = 7'b00111_00;                                          //hold one clk cycle
+    parameter load_dataJ        = 7'b11110_00;
+    
+
+    parameter put_sJtoSi        = 7'b10000_00;                                          //s[i] = s[j]
+    parameter hold_write_memI   = 7'b10001_00;
+    parameter write_sJtoSi      = 7'b10100_01;
+    parameter put_sItoSj        = 7'b10101_00;                                          //s[j] = buff
+    parameter hold_write_memJ   = 7'b11000_00;
+    parameter write_sItoSj      = 7'b11001_01;
+    
+    parameter incrementI        = 7'b11100_00;                                          //increments countLoop
+
+    parameter finish            = 7'b11101_10;                                          //finished
+    
+    assign wren_2a                 =   state[0];
+    assign doneFsm2a               =   state[1];
+
+    /* computes key_position 
+    always @(posedge clk) begin
+        key_position = i % 3;
+    end
+
+    /* Key position logic
+    always @(*) begin
+        case (key_position) //i % scret_key_length
+            2'b00: plus_key = secret_key [23:16];
+            2'b01: plus_key = secret_key [15:8];
+            2'b10: plus_key = secret_key [7:0];
+            default: plus_key = 23'b0;
+        endcase
+    end
+
+
+    //State logic
+    always @(posedge clk, posedge rst) begin
+        if (rst)
+            state <= idle;
+        else begin
+        case (state)
+
+        idle: 
+        begin
+                                                 i     <= 0;
+                                        mem_address_i  <= 0;
+                                        mem_address_j  <= 0;  
+            if (start)                  state          <= get_positionI;                                //start once task1 done
+            else                        state          <= idle;                                         //otherwise wait for task1 done
+        end
+
+        get_positionI:
+        begin
+                                        mem_address_i   <= i;                                           
+                                        state           <= fetchI;
+        end
+
+        fetchI: 
+        begin
+                                        write_mem       <= mem_address_i;                               //input adress = i
+                                        state           <= hold_fetchI;
+        end
+
+        hold_fetchI:                    state           <= load_dataI;                                  //now address = i
+
+        load_dataI: 
+        begin                                                             
+                                        buff1           <= read_data;                                   //buff1 = s[i]
+                                        state           <= get_positionJ;
+        end
+
+        get_positionJ: 
+        begin
+                                        mem_address_j   <= mem_address_j + buff1 + plus_key;            //compute j     
+                                        state           <= fetchJ;
+        end
+
+        fetchJ: 
+        begin
+                                        write_mem       <= mem_address_j;                               //input adress j
+                                        state           <= hold_fetchJ;
+        end
+
+        hold_fetchJ:                    state           <= load_dataJ;                                  //now address = j;
+                
+        put_sJtoSi:
+        begin
+                                        write_mem       <= mem_address_i;                               //input address i
+                                        buff2           <= read_data;                                   //load data at j
+                                        state           <= hold_write_memI
+        end
+
+        hold_write_memI:                state           <= write_sJtoSi;
+
+        write_sJtoSi:
+        begin
+                                        write_data      <= buff2;                                       //write s[j] to s[i]
+                                        state           <= putsItoSj;
+        end 
+
+        putsItoSj:
+        begin
+                                        write_mem       <= mem_address_j;                              //
+                                        state           <= hold_write_memJ;       
+        end
+
+        hold_write_memJ:                state           <= write_sItoSi;
+
+        write_sItoSi:
+        begin
+                                        write_
+        end
+        
+        load_dataJ:
+        begin                     
+                                        buff2           <= read_data;                                   //buff2 = s[j]
+                                        state           <= put_sJtoSi;
+        end
+         
+
+        put_sJtoSi:                             
+        begin                                                       
+                                        write_mem       <= mem_address_i;                               //input adress i
+                                        state           <= hold_write_memI; 
+        end
+
+        hold_write_memI:                state           <= write_sJtoSi;                                //now adress = i
+
+        write_sJtoSi:
+        begin
+                                        write_data      <= buff2;                                       //write s[j] to s[i]
+                                        state           <= put_sItoSj;                  
+        end
+        
+        put_sItoSj:
+        begin
+                                        write_mem       <= mem_address_j;                               //input address j
+                                        state           <= hold_write_memJ;                             
+        end                         
+           
+        hold_write_memJ:                state           <= write_sItoSj;                                //now adress = j
+                            
+        write_sItoSj
+        begin
+                                        write_data      <= buff1;                                       //write s[i] to s[j]
+                                        state           <= incrementI;
+        end
+
+        incrementI: begin                 
+                                        i               <= i + 8'b1;
+                if (i != 8'd255)        state           <= get_positionI;
+                else                    state           <= finish;                    
+        end
+
+        finish:                         state           <= finish;
+
+        default:                        state           <= idle;
+
+        endcase
+        end
+    end
+endmodule
+*/
+

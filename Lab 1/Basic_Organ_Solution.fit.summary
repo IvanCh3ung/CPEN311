@@ -1,0 +1,20 @@
+Fitter Status : Successful - Sun May 28 15:45:51 2023
+Quartus Prime Version : 16.1.2 Build 203 01/18/2017 SJ Lite Edition
+Revision Name : Basic_Organ_Solution
+Top-level Entity Name : Basic_Organ_Solution
+Family : Cyclone V
+Device : 5CSEMA5F31C6
+Timing Models : Final
+Logic utilization (in ALMs) : 2,661 / 32,070 ( 8 % )
+Total registers : 5679
+Total pins : 147 / 457 ( 32 % )
+Total virtual pins : 0
+Total block memory bits : 55,552 / 4,065,280 ( 1 % )
+Total RAM Blocks : 10 / 397 ( 3 % )
+Total DSP Blocks : 0 / 87 ( 0 % )
+Total HSSI RX PCSs : 0
+Total HSSI PMA RX Deserializers : 0
+Total HSSI TX PCSs : 0
+Total HSSI PMA TX Serializers : 0
+Total PLLs : 0 / 6 ( 0 % )
+Total DLLs : 0 / 4 ( 0 % )

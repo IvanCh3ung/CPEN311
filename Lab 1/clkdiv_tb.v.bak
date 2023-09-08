@@ -1,0 +1,28 @@
+`timescale 1ns/1ps
+
+/*
+test bench for the clock divider
+*/
+module clkdiv;
+reg inclk;
+reg [31:0] div_clk_count;
+wire outclk;
+integer num_fails = 0;
+integer num_passes = 0;
+
+/*inclk declaration*/
+initial begin
+    inclk = 1'b0;
+    forever #5 inclk = inclk;
+    
+end
+
+initial begin
+    div_clk_count = 2;
+    #100;
+    div_clk_count = 4;
+    #100;
+    div_clk_count = 0.5;
+end
+
+endmodule

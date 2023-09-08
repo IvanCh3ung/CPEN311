@@ -1,0 +1,72 @@
+`timescale 1ns/10ps
+
+/*
+The following testbench evaluates the ledControl module
+*/
+module ledControl_tb();
+reg clk;
+wire [7:0] LEDS;
+ledControl dut(.clk(clk), .LEDS(LEDS));
+
+task checkLED(input [7:0] LEDS);
+//  if(LEDS === dut.ledControl.LEDS) begin
+//     num_passes++;
+//     $display("[PASS] === LED CHECK === Expected: %b ==== Outputted: %b", LEDS, dut.ledControl.LEDS);
+//  end
+//  else begin
+//     $display("[FAIL] === LED CHECK === Expected: %b ==== Outputted: %b", LEDS, dut.ledControl.LEDS);
+//     num_fails;
+//  end
+#0;
+endtask
+
+/*
+clock declaration: suppose the period is 
+*/
+initial 
+begin
+    clk = 1'b0;
+    forever begin
+        #1 clk = ~clk;
+    end
+end
+
+initial begin
+    LEDS = 8'b00000100;
+    checkLED(8'b00000100);
+    #1;
+    checkLED(8'b00000010);
+    #1;
+    checkLED(8'b00000001);
+    #1;
+    checkLED(8'b00000010);
+    #1;
+    checkLED(8'b00000100);
+    #1;
+    checkLED(8'b00001000);
+    #1;
+    checkLED(8'b00010000);
+    #1;
+    checkLED(8'b00100000);
+    #1;
+    checkLED(8'b01000000);
+    #1;
+    checkLED(8'b10000000);
+    #1;
+    checkLED(8'b01000000);
+    #1;
+    checkLED(8'b00100000);
+    #1;
+    checkLED(8'b00010000);
+    #1;
+    checkLED(8'b00001000);
+    #1;
+    checkLED(8'b00000100);
+    #1;
+    
+
+
+end
+
+
+endmodule

@@ -1,0 +1,158 @@
+Flow report for dds_and_nios_lab
+Sun Jun 25 00:58:41 2023
+Quartus Prime Version 16.1.2 Build 203 01/18/2017 SJ Lite Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Flow Summary
+  3. Flow Settings
+  4. Flow Non-Default Global Settings
+  5. Flow Elapsed Time
+  6. Flow OS Summary
+  7. Flow Log
+  8. Flow Messages
+  9. Flow Suppressed Messages
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 2017  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel MegaCore Function License Agreement, or other 
+applicable license agreement, including, without limitation, 
+that your use is for the sole purpose of programming logic 
+devices manufactured by Intel and sold by Intel or its 
+authorized distributors.  Please refer to the applicable 
+agreement for further details.
+
+
+
++-------------------------------------------------------------------------------+
+; Flow Summary                                                                  ;
++---------------------------------+---------------------------------------------+
+; Flow Status                     ; Successful - Sun Jun 25 00:58:13 2023       ;
+; Quartus Prime Version           ; 16.1.2 Build 203 01/18/2017 SJ Lite Edition ;
+; Revision Name                   ; dds_and_nios_lab                            ;
+; Top-level Entity Name           ; dds_and_nios_lab                            ;
+; Family                          ; Cyclone V                                   ;
+; Device                          ; 5CSEMA5F31C6                                ;
+; Timing Models                   ; Final                                       ;
+; Logic utilization (in ALMs)     ; 4,981 / 32,070 ( 16 % )                     ;
+; Total registers                 ; 7886                                        ;
+; Total pins                      ; 241 / 457 ( 53 % )                          ;
+; Total virtual pins              ; 0                                           ;
+; Total block memory bits         ; 159,128 / 4,065,280 ( 4 % )                 ;
+; Total DSP Blocks                ; 2 / 87 ( 2 % )                              ;
+; Total HSSI RX PCSs              ; 0                                           ;
+; Total HSSI PMA RX Deserializers ; 0                                           ;
+; Total HSSI TX PCSs              ; 0                                           ;
+; Total HSSI PMA TX Serializers   ; 0                                           ;
+; Total PLLs                      ; 2 / 6 ( 33 % )                              ;
+; Total DLLs                      ; 0 / 4 ( 0 % )                               ;
++---------------------------------+---------------------------------------------+
+
+
++-----------------------------------------+
+; Flow Settings                           ;
++-------------------+---------------------+
+; Option            ; Setting             ;
++-------------------+---------------------+
+; Start date & time ; 06/25/2023 00:51:38 ;
+; Main task         ; Compilation         ;
+; Revision Name     ; dds_and_nios_lab    ;
++-------------------+---------------------+
+
+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Flow Non-Default Global Settings                                                                                                                                    ;
++---------------------------------------------------+----------------------------------------------------------------+--------------------+--------------+------------+
+; Assignment Name                                   ; Value                                                          ; Default Value      ; Entity Name  ; Section Id ;
++---------------------------------------------------+----------------------------------------------------------------+--------------------+--------------+------------+
+; ALLOW_POWER_UP_DONT_CARE                          ; Off                                                            ; On                 ; --           ; --         ;
+; BLOCK_RAM_AND_MLAB_EQUIVALENT_POWER_UP_CONDITIONS ; Care                                                           ; Auto               ; --           ; --         ;
+; COMPILER_SIGNATURE_ID                             ; 268891674184586.168767949701924                                ; --                 ; --           ; --         ;
+; ENABLE_IP_DEBUG                                   ; On                                                             ; Off                ; --           ; --         ;
+; ENABLE_SIGNALTAP                                  ; On                                                             ; --                 ; --           ; --         ;
+; EXTRACT_VERILOG_STATE_MACHINES                    ; Off                                                            ; On                 ; --           ; --         ;
+; FITTER_EFFORT                                     ; Standard Fit                                                   ; Auto Fit           ; --           ; --         ;
+; FIT_ONLY_ONE_ATTEMPT                              ; -- (Not supported for targeted family)                         ; Off                ; --           ; --         ;
+; MAX_CORE_JUNCTION_TEMP                            ; 85                                                             ; --                 ; --           ; --         ;
+; MIN_CORE_JUNCTION_TEMP                            ; 0                                                              ; --                 ; --           ; --         ;
+; MISC_FILE                                         ; DE1_SoC_QSYS/synthesis/../DE1_SoC_QSYS.cmp                     ; --                 ; --           ; --         ;
+; MISC_FILE                                         ; DE1_SoC_QSYS/synthesis/../../DE1_SoC_QSYS.qsys                 ; --                 ; --           ; --         ;
+; NUMBER_OF_INVERTED_REGISTERS_REPORTED             ; 1000                                                           ; 100                ; --           ; --         ;
+; OPTIMIZE_POWER_DURING_FITTING                     ; Off                                                            ; Normal compilation ; --           ; --         ;
+; OPTIMIZE_POWER_DURING_SYNTHESIS                   ; Off                                                            ; Normal compilation ; --           ; --         ;
+; OUTPUT_IO_TIMING_FAR_END_VMEAS                    ; Half Signal Swing                                              ; --                 ; --           ; --         ;
+; OUTPUT_IO_TIMING_FAR_END_VMEAS                    ; Half Signal Swing                                              ; --                 ; --           ; --         ;
+; OUTPUT_IO_TIMING_NEAR_END_VMEAS                   ; Half Vccio                                                     ; --                 ; --           ; --         ;
+; OUTPUT_IO_TIMING_NEAR_END_VMEAS                   ; Half Vccio                                                     ; --                 ; --           ; --         ;
+; PARTITION_COLOR                                   ; -- (Not supported for targeted family)                         ; --                 ; --           ; Top        ;
+; PARTITION_FITTER_PRESERVATION_LEVEL               ; -- (Not supported for targeted family)                         ; --                 ; --           ; Top        ;
+; PARTITION_NETLIST_TYPE                            ; -- (Not supported for targeted family)                         ; --                 ; --           ; Top        ;
+; PHYSICAL_SYNTHESIS_EFFORT                         ; Fast                                                           ; Normal             ; --           ; --         ;
+; PHYSICAL_SYNTHESIS_REGISTER_RETIMING              ; On                                                             ; Off                ; --           ; --         ;
+; POWER_BOARD_THERMAL_MODEL                         ; None (CONSERVATIVE)                                            ; --                 ; --           ; --         ;
+; POWER_PRESET_COOLING_SOLUTION                     ; 23 MM HEAT SINK WITH 200 LFPM AIRFLOW                          ; --                 ; --           ; --         ;
+; SAVE_DISK_SPACE                                   ; Off                                                            ; On                 ; --           ; --         ;
+; SLD_FILE                                          ; DE1_SoC_QSYS/synthesis/DE1_SoC_QSYS.regmap                     ; --                 ; --           ; --         ;
+; SLD_FILE                                          ; DE1_SoC_QSYS/synthesis/DE1_SoC_QSYS.debuginfo                  ; --                 ; --           ; --         ;
+; SLD_FILE                                          ; db/stp1_auto_stripped.stp                                      ; --                 ; --           ; --         ;
+; SLD_INFO                                          ; QSYS_NAME DE1_SoC_QSYS HAS_SOPCINFO 1 GENERATION_ID 1687678036 ; --                 ; DE1_SoC_QSYS ; --         ;
+; SOPCINFO_FILE                                     ; DE1_SoC_QSYS/synthesis/../../DE1_SoC_QSYS.sopcinfo             ; --                 ; --           ; --         ;
+; SYNTHESIS_ONLY_QIP                                ; On                                                             ; --                 ; --           ; --         ;
+; SYNTH_PROTECT_SDC_CONSTRAINT                      ; On                                                             ; Off                ; --           ; --         ;
+; USE_SIGNALTAP_FILE                                ; stp1.stp                                                       ; --                 ; --           ; --         ;
+; VERILOG_INPUT_VERSION                             ; SystemVerilog_2005                                             ; Verilog_2001       ; --           ; --         ;
+; VERILOG_MACRO                                     ; SOFTWARE_IS_QUARTUS=<None>                                     ; --                 ; --           ; --         ;
+; VERILOG_NON_CONSTANT_LOOP_LIMIT                   ; 5000                                                           ; 250                ; --           ; --         ;
+; VERILOG_SHOW_LMF_MAPPING_MESSAGES                 ; Off                                                            ; --                 ; --           ; --         ;
++---------------------------------------------------+----------------------------------------------------------------+--------------------+--------------+------------+
+
+
++-------------------------------------------------------------------------------------------------------------------------------+
+; Flow Elapsed Time                                                                                                             ;
++---------------------------+--------------+-------------------------+---------------------+------------------------------------+
+; Module Name               ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
++---------------------------+--------------+-------------------------+---------------------+------------------------------------+
+; Analysis & Synthesis      ; 00:01:26     ; 1.4                     ; 1216 MB             ; 00:02:04                           ;
+; Fitter                    ; 00:04:36     ; 1.2                     ; 3061 MB             ; 00:07:45                           ;
+; Assembler                 ; 00:00:17     ; 1.0                     ; 848 MB              ; 00:00:17                           ;
+; TimeQuest Timing Analyzer ; 00:00:26     ; 2.0                     ; 1394 MB             ; 00:00:46                           ;
+; Total                     ; 00:06:45     ; --                      ; --                  ; 00:10:52                           ;
++---------------------------+--------------+-------------------------+---------------------+------------------------------------+
+
+
++-----------------------------------------------------------------------------------------+
+; Flow OS Summary                                                                         ;
++---------------------------+------------------+------------+------------+----------------+
+; Module Name               ; Machine Hostname ; OS Name    ; OS Version ; Processor type ;
++---------------------------+------------------+------------+------------+----------------+
+; Analysis & Synthesis      ; M4006-pc42       ; Windows 10 ; 10.0       ; x86_64         ;
+; Fitter                    ; M4006-pc42       ; Windows 10 ; 10.0       ; x86_64         ;
+; Assembler                 ; M4006-pc42       ; Windows 10 ; 10.0       ; x86_64         ;
+; TimeQuest Timing Analyzer ; M4006-pc42       ; Windows 10 ; 10.0       ; x86_64         ;
++---------------------------+------------------+------------+------------+----------------+
+
+
+------------
+; Flow Log ;
+------------
+quartus_map --read_settings_files=on --write_settings_files=off dds_and_nios_lab -c dds_and_nios_lab
+quartus_fit --read_settings_files=off --write_settings_files=off dds_and_nios_lab -c dds_and_nios_lab
+quartus_asm --read_settings_files=off --write_settings_files=off dds_and_nios_lab -c dds_and_nios_lab
+quartus_sta dds_and_nios_lab -c dds_and_nios_lab
+
+
+

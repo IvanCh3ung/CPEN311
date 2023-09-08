@@ -1,0 +1,30 @@
+PLL_Name	DE1_SoC_QSYS:U0|DE1_SoC_QSYS_pll:pll|altera_pll:altera_pll_i|general[0].gpll~FRACTIONAL_PLL
+PLLJITTER	27
+PLLSPEmax	100
+PLLSPEmin	-100
+
+PLL_Name	DE1_SoC_QSYS:U0|DE1_SoC_QSYS_pll:pll|altera_pll:altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER
+PLLJITTER	NA
+PLLSPEmax	NA
+PLLSPEmin	NA
+
+PLL_Name	DE1_SoC_QSYS:U0|DE1_SoC_QSYS_pll:pll|altera_pll:altera_pll_i|general[1].gpll~PLL_OUTPUT_COUNTER
+PLLJITTER	NA
+PLLSPEmax	NA
+PLLSPEmin	NA
+
+PLL_Name	DE1_SoC_QSYS:U0|DE1_SoC_QSYS_pll:pll|altera_pll:altera_pll_i|general[2].gpll~PLL_OUTPUT_COUNTER
+PLLJITTER	NA
+PLLSPEmax	NA
+PLLSPEmin	NA
+
+PLL_Name	DE1_SoC_QSYS:U0|DE1_SoC_QSYS_vga:vga|DE1_SoC_QSYS_vga_vga_clk:vga_clk|altera_pll:altera_pll_i|general[0].gpll~FRACTIONAL_PLL
+PLLJITTER	49
+PLLSPEmax	100
+PLLSPEmin	-100
+
+PLL_Name	DE1_SoC_QSYS:U0|DE1_SoC_QSYS_vga:vga|DE1_SoC_QSYS_vga_vga_clk:vga_clk|altera_pll:altera_pll_i|general[0].gpll~PLL_OUTPUT_COUNTER
+PLLJITTER	NA
+PLLSPEmax	NA
+PLLSPEmin	NA
+
